@@ -16,7 +16,7 @@ export class UserResolver {
   } */
 
   @RelayedQuery(() => User)
-  async users(
+  async allUsers(
     @RelayLimitOffset() {limit, offset}: RelayLimitOffsetArgs
   ): Promise<[User[], number]> {
     return this.userService.page(offset, limit)

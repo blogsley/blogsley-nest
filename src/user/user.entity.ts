@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 import { Field, ObjectType, Int } from "type-graphql";
 
 @ObjectType()
-@Entity("user")
+@Entity()
 export class User {
   @Field()
   @PrimaryGeneratedColumn("uuid")
@@ -22,9 +22,9 @@ export class User {
 
   @Field()
   @Column("varchar", { length: 256 })
-  first_name: string;
+  firstName: string;
 
   @Field()
   @Column("varchar", { length: 256 })
-  last_name: string;
+  lastName: string;
 }

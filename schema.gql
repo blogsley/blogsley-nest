@@ -17,6 +17,11 @@ input ConnectionArgs {
   last: Int
 }
 
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
 type LogIn {
   token: String!
 }
@@ -29,6 +34,7 @@ input LoginInput {
 type Mutation {
   createUser(data: UserInput!): User!
   login(data: LoginInput!): LogIn!
+  createPost(data: PostInput!): Post!
 }
 
 type PageInfo {
@@ -38,8 +44,38 @@ type PageInfo {
   endCursor: String
 }
 
+type Post {
+  id: String!
+  status: String!
+  title: String!
+  slug: String!
+  model: String!
+  cover: String!
+  body: String!
+  timestamp: DateTime!
+  author: String!
+}
+
+type PostConnection {
+  pageInfo: PageInfo!
+  edges: [PostEdge!]!
+}
+
+type PostEdge {
+  node: Post!
+
+  """Used in `before` and `after` args"""
+  cursor: String!
+}
+
+input PostInput {
+  title: String!
+  model: String!
+  body: String!
+}
+
 type Query {
-  users(
+  allUsers(
     """Paginate before opaque cursor"""
     before: String
 
@@ -52,6 +88,19 @@ type Query {
     """Paginate last"""
     last: Int
   ): UserConnection!
+  allPosts(
+    """Paginate before opaque cursor"""
+    before: String
+
+    """Paginate after opaque cursor"""
+    after: String
+
+    """Paginate first"""
+    first: Int
+
+    """Paginate last"""
+    last: Int
+  ): PostConnection!
 }
 
 input SignUpInput {
@@ -64,8 +113,8 @@ type User {
   username: String!
   password: String!
   email: String!
-  first_name: String!
-  last_name: String!
+  firstName: String!
+  lastName: String!
 }
 
 type UserConnection {
